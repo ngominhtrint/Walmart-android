@@ -1,7 +1,6 @@
 package com.coderschool.walmart_android.models;
 
 import android.content.Context;
-import android.util.JsonReader;
 
 import com.coderschool.walmart_android.R;
 import com.google.gson.Gson;
@@ -9,11 +8,9 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -21,7 +18,7 @@ import java.util.ArrayList;
  * Created by tringo on 3/14/18.
  */
 
-public class Product {
+public class Product implements Serializable {
 
     @SerializedName("id")
     private String id;
@@ -44,6 +41,9 @@ public class Product {
     @SerializedName("rating")
     private Double rating;
 
+    private Integer quantity;
+    private Boolean isSelected;
+
     public Product(String id, String name, String photo, String ship, Double originPrice, Double currentPrice, Double rating) {
         this.id = id;
         this.name = name;
@@ -58,56 +58,44 @@ public class Product {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
     public String getShip() {
         return ship;
-    }
-
-    public void setShip(String ship) {
-        this.ship = ship;
     }
 
     public Double getOriginPrice() {
         return originPrice;
     }
 
-    public void setOriginPrice(Double originPrice) {
-        this.originPrice = originPrice;
-    }
-
     public Double getCurrentPrice() {
         return currentPrice;
-    }
-
-    public void setCurrentPrice(Double currentPrice) {
-        this.currentPrice = currentPrice;
     }
 
     public Double getRating() {
         return rating;
     }
 
-    public void setRating(Double rating) {
-        this.rating = rating;
+    public Integer getQuantity() {
+        return quantity == null ? 0 : quantity;
+    }
+
+    public Boolean getSelected() {
+        return isSelected == null ? false : isSelected;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setSelected(Boolean selected) {
+        isSelected = selected;
     }
 
     public static ArrayList<Product> readJSONFile(Context context) {

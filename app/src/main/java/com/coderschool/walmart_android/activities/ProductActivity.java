@@ -7,18 +7,26 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.coderschool.walmart_android.R;
+import com.coderschool.walmart_android.adapters.ProductListener;
 import com.coderschool.walmart_android.adapters.ProductsAdapter;
 import com.coderschool.walmart_android.models.Product;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ProductActivity extends AppCompatActivity {
+public class ProductActivity extends AppCompatActivity implements ProductListener {
 
-    List<Product> products;
+    public static int REQUEST_CODE = 999;
+    public static int RESULT_CODE = 100;
+
+    private List<Product> products;
+    private ProductsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +46,21 @@ public class ProductActivity extends AppCompatActivity {
         products = Product.readJSONFile(this);
 
         RecyclerView rvProducts = (RecyclerView) findViewById(R.id.rvProducts);
-        ProductsAdapter adapter = new ProductsAdapter(this, products);
+        adapter = new ProductsAdapter(this, products);
+        adapter.setListener(this);
         rvProducts.setAdapter(adapter);
         rvProducts.setLayoutManager(new LinearLayoutManager(this));
         rvProducts.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+    }
+
+    private List<Product> filterProduct() {
+        List<Product> result = new ArrayList<>();
+        for (Product product: products) {
+            if (product.getSelected()) {
+                result.add(product);
+            }
+        }
+        return result;
     }
 
     @Override
@@ -55,10 +74,35 @@ public class ProductActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.cart:
                 Intent intent = new Intent(this, CartActivity.class);
-                startActivity(intent);
+                intent.putExtra("ProductInCart", (Serializable) filterProduct());
+                startActivityForResult(intent, 999);
                 return true;
             default:
                 return false;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE && data != null) {
+            Product removedProduct = (Product) data.getSerializableExtra("RemoveProduct");
+
+            for (int index = 0; index < products.size(); index++) {
+                if (products.get(index).getId().equals(removedProduct.getId())) {
+                    products.get(index).setQuantity(0);
+                    products.get(index).setSelected(false);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void addToCart(Integer index) {
+        products.get(index).setSelected(!products.get(index).getSelected());
+        products.get(index).setQuantity(1);
+        adapter.notifyDataSetChanged();
     }
 }
