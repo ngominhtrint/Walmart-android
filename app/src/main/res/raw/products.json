@@ -1,0 +1,65 @@
+[
+    {
+      "name": "Sceptre 24\" Class FHD (1080P) LED TV (E246BV-F)",
+      "originPrice": 149.99,
+      "currentPrice": 89.99,
+      "rating": 4,
+      "photo": "https://i5.walmartimages.com/asr/bd9d9320-b146-421d-89ac-3fe357f2a0ce_1.4a857125c2e553e9463a730c53ffe1b0.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF",
+      "ship": "2-DAY SHIPPING",
+      "id": "0"
+    },
+    {
+      "name": "LEGO Minecraft The Chicken Coop 21140",
+      "originPrice": 19.99,
+      "currentPrice": 15.99,
+      "rating": 4.5,
+      "photo": "https://i5.walmartimages.com/asr/15f2c159-955b-40a2-a9c6-7c6ab97058f4_1.105585b17f8d09d8af0470ef24cac5f8.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF",
+      "ship": "2-DAY SHIPPING",
+      "id": "1"
+    },
+    {
+      "name": "Ozark Trail 4-Person 8' x 7' Instant A-Frame Tent",
+      "originPrice": 38,
+      "currentPrice": 34,
+      "rating": 3.5,
+      "photo": "https://i5.walmartimages.com/asr/0639270f-f4cb-402c-97ab-040dde2ec2c4_1.75fb9035791add8f981095f5553b970a.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF",
+      "ship": "1-DAY SHIPPING",
+      "id": "2"
+    },
+    {
+      "name": "Pasta Roni Fettuccine Alfredo, 4.7 oz Box",
+      "originPrice": 1.65,
+      "currentPrice": 1.48,
+      "rating": 4.5,
+      "photo": "https://i5.walmartimages.com/asr/c27af938-d763-4f3d-873d-49b0932a8297_1.1a206642da000afe1160a613d2e250d3.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF",
+      "ship": "2-DAY SHIPPING",
+      "id": "3"
+    },
+    {
+      "name": "Chef Boyardee Mini Beef Ravioli in Tomato & Meat Sauce, 4-Pack",
+      "originPrice": 3.48,
+      "currentPrice": 3.48,
+      "rating": 4.5,
+      "photo": "https://i5.walmartimages.com/asr/51474932-8292-44d8-bf80-295f705a91fa_1.02a41bd8ecff6188c35f5ae42792a4a1.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF",
+      "ship": "2-DAY SHIPPING",
+      "id": "4"
+    },
+    {
+      "name": "Koss UR20 Full-Size Over-The-Ear Headphones, Black",
+      "originPrice": 29.99,
+      "currentPrice": 16.65,
+      "rating": 4.5,
+      "photo": "https://i5.walmartimages.com/asr/902e1406-ea82-41fd-b8ee-65fbeac753a2_1.8cb2ded79a25f525fb70e3ea6887e209.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF",
+      "ship": "2-DAY SHIPPING",
+      "id": "5"
+    },
+    {
+      "name": "Logitech G502 Proteus Spectrum RGB Turntable Gaming Mouse",
+      "originPrice": 79.96,
+      "currentPrice": 45.99,
+      "rating": 4,
+      "photo": "https://i5.walmartimages.com/asr/2eb80544-5a98-414d-a1da-1e770cb2f7d7_1.5fe18546110436223a5b6b3c710c2b2f.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF",
+      "ship": "2-DAY SHIPPING",
+      "id": "6"
+    }
+]
