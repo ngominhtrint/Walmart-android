@@ -51,6 +51,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/btnContinueShopping"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_margin="8dp"

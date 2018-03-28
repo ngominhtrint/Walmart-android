@@ -19,30 +19,43 @@ import java.util.List;
  * Created by tringo on 3/14/18.
  */
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
+public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivProducts;
         TextView tvCurrentPrice;
-        TextView tvOriginPrice;
         TextView tvName;
         TextView tvShip;
-        TextView tvQuantity;
-        Button btnAdd;
-        Button btnSubstract;
+        Button btnPickQuantity;
+        Button btnRemove;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             ivProducts = (ImageView) itemView.findViewById(R.id.ivProduct);
             tvCurrentPrice = (TextView) itemView.findViewById(R.id.tvCurrentPrice);
-            tvOriginPrice = (TextView) itemView.findViewById(R.id.tvOriginPrice);
             tvName = (TextView) itemView.findViewById(R.id.tvName);
             tvShip = (TextView) itemView.findViewById(R.id.tvShip);
-            tvQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
-            btnAdd = (Button) itemView.findViewById(R.id.btnAdd);
-            btnSubstract = (Button) itemView.findViewById(R.id.btnSubstract);
+            btnRemove = (Button) itemView.findViewById(R.id.btnRemove);
+            btnPickQuantity = (Button) itemView.findViewById(R.id.btnPickQuantity);
+        }
+    }
+
+    class HeaderViewHolder extends RecyclerView.ViewHolder {
+        Button btnHeaderCheckout;
+
+        HeaderViewHolder(View itemView) {
+            super(itemView);
+            btnHeaderCheckout = (Button) itemView.findViewById(R.id.btnHeaderCheckout);
+        }
+    }
+
+    class FooterViewHolder extends RecyclerView.ViewHolder {
+        Button btnFooterCheckout;
+        FooterViewHolder(View itemView) {
+            super(itemView);
+            btnFooterCheckout = (Button) itemView.findViewById(R.id.btnFooterCheckout);
         }
     }
 
@@ -64,41 +77,84 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     @Override
-    public CartAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View productView = inflater.inflate(R.layout.item_cart, parent, false);
-        return new ViewHolder(productView);
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return 0;
+        } else if (position == mProducts.size() - 1) {
+            return -1;
+        } else {
+            return position;
+        }
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View productView = inflater.inflate(R.layout.item_cart, parent, false);
+        View headerView = inflater.inflate(R.layout.item_header, parent, false);
+        View footerView = inflater.inflate(R.layout.item_footer, parent, false);
+
+        switch (viewType) {
+            case 0:
+                return new HeaderViewHolder(headerView);
+            case -1:
+                return new FooterViewHolder(footerView);
+            default:
+                return new ViewHolder(productView);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+
         final Product product = mProducts.get(position);
 
-        if (product != null) {
-            Picasso.get()
-                    .load(product.getPhoto())
-                    .into(holder.ivProducts);
+        switch (holder.getItemViewType()) {
+            case 0:
+                HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
+                headerViewHolder.btnHeaderCheckout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mListener.onCheckout(position);
+                    }
+                });
+                break;
+            case -1:
+                FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
+                footerViewHolder.btnFooterCheckout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mListener.onCheckout(position);
+                    }
+                });
+                break;
+                default:
+                    ViewHolder viewHolder = (ViewHolder) holder;
+                    if (product != null) {
+                        Picasso.get()
+                                .load(product.getPhoto())
+                                .into(viewHolder.ivProducts);
 
-            holder.tvCurrentPrice.setText(String.format("$%s", product.getCurrentPrice()));
-            holder.tvOriginPrice.setText(String.format("was $%s", product.getOriginPrice()));
-            holder.tvName.setText(product.getName());
-            holder.tvShip.setText(product.getShip());
-            holder.tvQuantity.setText(product.getQuantity().toString());
+                        viewHolder.tvCurrentPrice.setText(String.format("$%s", product.getCurrentPrice()));
+                        viewHolder.tvName.setText(product.getName());
+                        viewHolder.tvShip.setText(product.getShip());
 
-            holder.btnAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mListener.onQuantityIncreased(position);
-                }
-            });
+                        viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
 
-            holder.btnSubstract.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mListener.onQuantityDecreased(position);
-                }
-            });
+                            }
+                        });
+
+                        viewHolder.btnPickQuantity.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        });
+                    }
+                    break;
         }
     }
 

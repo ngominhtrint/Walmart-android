@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.coderschool.walmart_android.R;
 import com.coderschool.walmart_android.adapters.CartAdapter;
 import com.coderschool.walmart_android.adapters.CartListener;
-import com.coderschool.walmart_android.adapters.ProductsAdapter;
 import com.coderschool.walmart_android.models.Product;
 
 import java.util.List;
@@ -119,5 +118,10 @@ public class CartActivity extends AppCompatActivity implements CartListener {
             updateQuantity();
             updateAmount();
         }
+    }
+
+    @Override
+    public void onCheckout(int index) {
+
     }
 }

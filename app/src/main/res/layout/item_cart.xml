@@ -1,93 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="8dp">
-
-    <ImageView
-        android:id="@+id/ivProduct"
-        android:layout_width="128dp"
-        android:layout_height="match_parent"
-        android:scaleType="fitStart" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="8dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivProduct"
+            android:layout_width="128dp"
+            android:layout_height="match_parent"
+            android:scaleType="fitStart" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvCurrentPrice"
+                android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                android:text="$89.99"
+                android:text="LEGO Minecraft The Chicken Coop 21140"
                 android:textColor="@android:color/black"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvOriginPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="was $149.99" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Logitech G502 Proteus Spectrum RGB Turntable Gaming Mouse"
-            android:textColor="@android:color/black"
-            android:textSize="17sp" />
-
-        <TextView
-            android:id="@+id/tvShip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="2-DAY SHIPPING"
-            android:textColor="@color/green"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
-
-            <Button
-                android:id="@+id/btnAdd"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@mipmap/add"/>
+                android:layout_marginTop="8dp"
+                android:text="Sold by: Walmart.com"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tvQuantity"
-                android:layout_width="60dp"
+                android:id="@+id/tvShip"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp"
-                android:gravity="center"
-                android:text="1"
+                android:layout_marginTop="8dp"
+                android:text="2-DAY SHIPPING"
+                android:textColor="@color/green"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/tvCurrentPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="8dp"
+                android:text="$15.99"
                 android:textColor="@android:color/black"
-                android:textSize="17sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btnSubstract"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@mipmap/substract"/>
         </LinearLayout>
-
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Checkout to see shipping and pickup options."
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/btnPickQuantity"
+            android:layout_width="80dp"
+            android:layout_height="44dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/button_boundary"
+            android:text="1" />
+
+        <Button
+            android:id="@+id/btnSaveForLater"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@+id/btnRemove"
+            android:layout_toRightOf="@id/btnPickQuantity"
+            android:background="@drawable/button_boundary"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Save for Later"
+            android:textColor="@color/lightBlue" />
+
+        <Button
+            android:id="@+id/btnRemove"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/cross" />
+    </RelativeLayout>
+
 
 </LinearLayout>

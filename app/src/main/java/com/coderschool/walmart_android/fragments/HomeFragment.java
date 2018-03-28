@@ -1,7 +1,6 @@
 package com.coderschool.walmart_android.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,18 +11,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.coderschool.walmart_android.R;
-import com.coderschool.walmart_android.activities.CartActivity;
 import com.coderschool.walmart_android.activities.MainActivity;
 import com.coderschool.walmart_android.adapters.ProductListener;
 import com.coderschool.walmart_android.adapters.ProductsAdapter;
 import com.coderschool.walmart_android.models.Product;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +44,8 @@ public class HomeFragment extends Fragment implements ProductListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
         mainActivity.setSupportActionBar(toolbar);
-
         setupRecyclerView();
+
         super.onViewCreated(view, savedInstanceState);
     }
 

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.coderschool.walmart_android.R;
 import com.coderschool.walmart_android.activities.MainActivity;
@@ -35,9 +37,18 @@ public class ThankFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
         mainActivity.setSupportActionBar(toolbar);
+
+        Button btnContinueShopping = (Button) getView().findViewById(R.id.btnContinueShopping);
+        btnContinueShopping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                mainActivity.viewPager.setCurrentItem(0);
+            }
+        });
+
+        super.onViewCreated(view, savedInstanceState);
     }
 }
