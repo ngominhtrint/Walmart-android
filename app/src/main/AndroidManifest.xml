@@ -12,11 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ProductActivity">
-        </activity>
-        <activity android:name=".activities.CartActivity" />
-        <activity android:name=".activities.CheckoutActivity" />
-        <activity android:name=".activities.ThankActivity" />
         <activity
             android:name=".activities.MainActivity">
             <intent-filter>
