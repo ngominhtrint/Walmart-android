@@ -94,34 +94,17 @@ public class CartActivity extends AppCompatActivity implements CartListener {
     }
 
     @Override
-    public void onQuantityIncreased(int index) {
-        products.get(index).setQuantity(products.get(index).getQuantity() + 1);
-        adapter.notifyDataSetChanged();
-        updateQuantity();
-        updateAmount();
-    }
-
-    @Override
-    public void onQuantityDecreased(int index) {
-        if (products.get(index).getQuantity() > 1) {
-            products.get(index).setQuantity(products.get(index).getQuantity() - 1);
-            adapter.notifyDataSetChanged();
-            updateQuantity();
-            updateAmount();
-        } else {
-            Intent output = new Intent();
-            output.putExtra("RemoveProduct", products.get(index));
-            setResult(ProductActivity.RESULT_CODE, output);
-
-            products.remove(index);
-            adapter.notifyDataSetChanged();
-            updateQuantity();
-            updateAmount();
-        }
-    }
-
-    @Override
     public void onCheckout(int index) {
+
+    }
+
+    @Override
+    public void onRemoveItem(int index) {
+
+    }
+
+    @Override
+    public void onPickQuantity(int index) {
 
     }
 }

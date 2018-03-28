@@ -5,7 +5,7 @@ package com.coderschool.walmart_android.adapters;
  */
 
 public interface CartListener {
-    public void onQuantityIncreased(int index);
-    public void onQuantityDecreased(int index);
     public void onCheckout(int index);
+    public void onRemoveItem(int index);
+    public void onPickQuantity(int index);
 }

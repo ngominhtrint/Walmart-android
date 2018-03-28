@@ -1,10 +1,12 @@
 package com.coderschool.walmart_android.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.coderschool.walmart_android.R;
 import com.coderschool.walmart_android.activities.MainActivity;
@@ -88,21 +92,51 @@ public class CartFragment extends Fragment implements CartListener {
     }
 
     @Override
-    public void onQuantityIncreased(int index) {
-
-    }
-
-    @Override
-    public void onQuantityDecreased(int index) {
-
-    }
-
-    @Override
     public void onCheckout(int index) {
         Fragment checkoutFragment = new CheckoutFragment(mainActivity);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, checkoutFragment);
         ft.addToBackStack(CheckoutFragment.class.getName());
         ft.commit();
+    }
+
+    @Override
+    public void onRemoveItem(int index) {
+
+    }
+
+    @Override
+    public void onPickQuantity(int index) {
+        openDialog(index);
+    }
+
+    private void openDialog(final int index) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(mainActivity);
+        builderSingle.setIcon(R.mipmap.ic_launcher);
+        builderSingle.setTitle("Pick item quantity");
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(mainActivity, android.R.layout.simple_selectable_list_item);
+        for (int i = 1; i <= 12; i++) {
+            arrayAdapter.add(String.valueOf(i));
+        }
+
+        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String strNumber = arrayAdapter.getItem(which);
+                products.get(index).setQuantity(Integer.valueOf(strNumber));
+                adapter.notifyDataSetChanged();
+
+                Toast.makeText(mainActivity, strNumber + " items", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builderSingle.show();
     }
 }

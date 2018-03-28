@@ -139,18 +139,19 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         viewHolder.tvCurrentPrice.setText(String.format("$%s", product.getCurrentPrice()));
                         viewHolder.tvName.setText(product.getName());
                         viewHolder.tvShip.setText(product.getShip());
+                        viewHolder.btnPickQuantity.setText(product.getQuantity() == 0 ? "1" : product.getQuantity().toString());
 
                         viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-
+                                mListener.onRemoveItem(position);
                             }
                         });
 
                         viewHolder.btnPickQuantity.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-
+                                mListener.onPickQuantity(position);
                             }
                         });
                     }
