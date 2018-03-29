@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,14 +19,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import com.coderschool.walmart_android.R;
 import com.coderschool.walmart_android.activities.MainActivity;
 import com.coderschool.walmart_android.adapters.CartAdapter;
 import com.coderschool.walmart_android.adapters.CartListener;
+import com.coderschool.walmart_android.manager.ProductManager;
 import com.coderschool.walmart_android.models.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +38,7 @@ import java.util.List;
 public class CartFragment extends Fragment implements CartListener {
 
     private MainActivity mainActivity;
-    private List<Product> products;
+    private ArrayList<Product> products;
     private CartAdapter adapter;
 
     public CartFragment(MainActivity activity) {
@@ -54,9 +56,29 @@ public class CartFragment extends Fragment implements CartListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
         mainActivity.setSupportActionBar(toolbar);
-        setupRecyclerView();
+
+        mainActivity.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 1) {
+                    setupRecyclerView();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) { }
+        });
 
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setupRecyclerView();
     }
 
     @Override
@@ -81,7 +103,7 @@ public class CartFragment extends Fragment implements CartListener {
     }
 
     private void setupRecyclerView() {
-        products = Product.readJSONFile(mainActivity);
+        products = ProductManager.getInstance().loadCartItems();
 
         RecyclerView rvCart = (RecyclerView) getView().findViewById(R.id.rvCart);
         adapter = new CartAdapter(mainActivity, products);
@@ -102,7 +124,29 @@ public class CartFragment extends Fragment implements CartListener {
 
     @Override
     public void onRemoveItem(int index) {
+        Product cartItem = products.get(index);
+        ArrayList<Product> homeProducts = ProductManager.getInstance().load();
+        for (int i = 0; i < homeProducts.size(); i++) {
+            if (cartItem.getId().equals(homeProducts.get(i).getId())) {
+                homeProducts.get(i).setSelected(false);
+                homeProducts.get(i).setQuantity(0);
+            }
+        }
+        ProductManager.getInstance().save(homeProducts);
 
+        products.remove(index);
+
+        if (products.size() < 3) {
+            products.remove(products.size() - 1);
+            products.remove(0);
+        } else {
+            products.get(0).setTotalItem(ProductManager.getInstance().calculateQuantity(products));
+            products.get(0).setTotalAmount(ProductManager.getInstance().calculateAmount(products));
+            products.get(products.size() - 1).setTotalItem(ProductManager.getInstance().calculateQuantity(products));
+            products.get(products.size() - 1).setTotalAmount(ProductManager.getInstance().calculateAmount(products));
+        }
+
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -132,9 +176,14 @@ public class CartFragment extends Fragment implements CartListener {
             public void onClick(DialogInterface dialog, int which) {
                 String strNumber = arrayAdapter.getItem(which);
                 products.get(index).setQuantity(Integer.valueOf(strNumber));
-                adapter.notifyDataSetChanged();
 
-                Toast.makeText(mainActivity, strNumber + " items", Toast.LENGTH_SHORT).show();
+                ProductManager.getInstance().save(products);
+                products.get(0).setTotalItem(ProductManager.getInstance().calculateQuantity(products));
+                products.get(0).setTotalAmount(ProductManager.getInstance().calculateAmount(products));
+                products.get(products.size() - 1).setTotalItem(ProductManager.getInstance().calculateQuantity(products));
+                products.get(products.size() - 1).setTotalAmount(ProductManager.getInstance().calculateAmount(products));
+
+                adapter.notifyDataSetChanged();
             }
         });
         builderSingle.show();

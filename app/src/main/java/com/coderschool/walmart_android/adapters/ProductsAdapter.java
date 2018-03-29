@@ -13,6 +13,7 @@ import com.coderschool.walmart_android.R;
 import com.coderschool.walmart_android.models.Product;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,9 +45,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
 
     private Context mContext;
     private ProductListener mListener;
-    private List<Product> mProducts;
+    private ArrayList<Product> mProducts;
 
-    public ProductsAdapter(Context context, List<Product> mProducts) {
+    public ProductsAdapter(Context context, ArrayList<Product> mProducts) {
         this.mContext = context;
         this.mProducts = mProducts;
     }

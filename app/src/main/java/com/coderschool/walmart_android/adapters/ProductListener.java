@@ -5,5 +5,5 @@ package com.coderschool.walmart_android.adapters;
  */
 
 public interface ProductListener {
-    public void addToCart(Integer index);
+    public void addToCart(int index);
 }

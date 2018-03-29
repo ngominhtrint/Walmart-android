@@ -13,6 +13,8 @@ import com.coderschool.walmart_android.R;
 import com.coderschool.walmart_android.models.Product;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 /**
@@ -43,18 +45,26 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class HeaderViewHolder extends RecyclerView.ViewHolder {
+        TextView tvHeaderTotal;
         Button btnHeaderCheckout;
 
         HeaderViewHolder(View itemView) {
             super(itemView);
+            tvHeaderTotal = (TextView) itemView.findViewById(R.id.tvHeaderTotal);
             btnHeaderCheckout = (Button) itemView.findViewById(R.id.btnHeaderCheckout);
         }
     }
 
     class FooterViewHolder extends RecyclerView.ViewHolder {
+        TextView tvFooterSubtotalItem;
+        TextView tvSubtotalPrice;
+        TextView tvTotalAmount;
         Button btnFooterCheckout;
         FooterViewHolder(View itemView) {
             super(itemView);
+            tvFooterSubtotalItem = (TextView) itemView.findViewById(R.id.tvFooterSubtotalItem);
+            tvSubtotalPrice = (TextView) itemView.findViewById(R.id.tvSubtotalPrice);
+            tvTotalAmount = (TextView) itemView.findViewById(R.id.tvTotalAmount);
             btnFooterCheckout = (Button) itemView.findViewById(R.id.btnFooterCheckout);
         }
     }
@@ -113,6 +123,8 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         switch (holder.getItemViewType()) {
             case 0:
                 HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
+                headerViewHolder.tvHeaderTotal.setText(String.format("Est. total: $%.2f", product.getTotalAmount()));
+                headerViewHolder.btnHeaderCheckout.setText(String.format("Check Out (%d)", product.getTotalItem()));
                 headerViewHolder.btnHeaderCheckout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -122,6 +134,10 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case -1:
                 FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
+                footerViewHolder.tvFooterSubtotalItem.setText(String.format("Subtotal (%d items)", product.getTotalItem()));
+                footerViewHolder.tvSubtotalPrice.setText(String.format("$%.2f", product.getTotalAmount()));
+                footerViewHolder.tvTotalAmount.setText(String.format("$%.2f", product.getTotalAmount()));
+                footerViewHolder.btnFooterCheckout.setText(String.format("Check Out (%d)", product.getTotalItem()));
                 footerViewHolder.btnFooterCheckout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -139,7 +155,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         viewHolder.tvCurrentPrice.setText(String.format("$%s", product.getCurrentPrice()));
                         viewHolder.tvName.setText(product.getName());
                         viewHolder.tvShip.setText(product.getShip());
-                        viewHolder.btnPickQuantity.setText(product.getQuantity() == 0 ? "1" : product.getQuantity().toString());
+                        viewHolder.btnPickQuantity.setText(product.getQuantity() == 0 ? "1" : String.valueOf(product.getQuantity()));
 
                         viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
                             @Override

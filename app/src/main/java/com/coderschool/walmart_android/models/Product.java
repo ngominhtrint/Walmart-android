@@ -41,10 +41,19 @@ public class Product implements Serializable {
     @SerializedName("rating")
     private Double rating;
 
-    private Integer quantity;
-    private Boolean isSelected;
+    @SerializedName("quantity")
+    private int quantity;
 
-    public Product(String id, String name, String photo, String ship, Double originPrice, Double currentPrice, Double rating) {
+    @SerializedName("isSelected")
+    private boolean isSelected;
+
+    @SerializedName("totalItem")
+    private int totalItem;
+
+    @SerializedName("totalAmount")
+    private double totalAmount;
+
+    public Product(String id, String name, String photo, String ship, Double originPrice, Double currentPrice, Double rating, int quantity, boolean isSelected, int totalItem, double totalAmount) {
         this.id = id;
         this.name = name;
         this.photo = photo;
@@ -52,6 +61,15 @@ public class Product implements Serializable {
         this.originPrice = originPrice;
         this.currentPrice = currentPrice;
         this.rating = rating;
+        this.quantity = quantity;
+        this.isSelected = isSelected;
+        this.totalItem = totalItem;
+        this.totalAmount = totalAmount;
+    }
+
+    public Product(int totalItem, double totalAmount) {
+        this.totalItem = totalItem;
+        this.totalAmount = totalAmount;
     }
 
     public String getId() {
@@ -82,20 +100,36 @@ public class Product implements Serializable {
         return rating;
     }
 
-    public Integer getQuantity() {
-        return quantity == null ? 0 : quantity;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public Boolean getSelected() {
-        return isSelected == null ? false : isSelected;
+    public boolean getSelected() {
+        return isSelected;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public void setSelected(Boolean selected) {
+    public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public int getTotalItem() {
+        return totalItem;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalItem(int totalItem) {
+        this.totalItem = totalItem;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public static ArrayList<Product> readJSONFile(Context context) {

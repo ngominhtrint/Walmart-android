@@ -5,8 +5,12 @@ import android.content.SharedPreferences;
 
 import com.coderschool.walmart_android.App;
 import com.coderschool.walmart_android.models.Product;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tringo on 3/26/18.
@@ -18,7 +22,7 @@ public class ProductManager {
     private static ProductManager mInstance;
     private SharedPreferences mSharedPreferences;
 
-    private ArrayList<Product> products;
+    private ArrayList<Product> products = new ArrayList<>();
 
     private ProductManager() {
         mSharedPreferences = App.self().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -31,12 +35,21 @@ public class ProductManager {
         return mInstance;
     }
 
+    public boolean isReset() {
+        return get("isReset", Boolean.class);
+    }
+
+    public void setReset(boolean isReset) {
+        put("isReset", isReset);
+    }
+
     public ArrayList<Product> getProducts() {
-        return products;
+        return load();
     }
 
     public void setProducts(ArrayList<Product> products) {
         this.products = products;
+        this.save(products);
     }
 
     public void save() {
@@ -47,8 +60,51 @@ public class ProductManager {
         this.put("products", newProducts);
     }
 
-    public void load() {
-        this.products = this.get("products", ArrayList.class);
+    public ArrayList<Product> load() {
+        Type listType = new TypeToken<ArrayList<Product>>(){}.getType();
+        products = this.get("products", listType);
+
+        return products;
+    }
+
+    public ArrayList<Product> loadCartItems() {
+        ArrayList<Product> filterProducts = new ArrayList<>();
+
+        for (Product item: load()) {
+            if (item.getSelected()) {
+                filterProducts.add(item);
+            }
+        }
+
+        if (filterProducts.size() > 0) {
+            int totalItems = calculateQuantity(filterProducts);
+            double totalAmount = calculateAmount(filterProducts);
+            Product headerItem = new Product(totalItems, totalAmount);
+            Product footerItem = new Product(totalItems, totalAmount);
+            filterProducts.add(0, headerItem);
+            filterProducts.add(filterProducts.size(), footerItem);
+        }
+
+        return filterProducts;
+    }
+
+    public double calculateAmount(ArrayList<Product> sources) {
+        double totalAmount = 0;
+        for (Product product: sources) {
+            if (product.getCurrentPrice() == null) {
+                continue;
+            }
+            totalAmount += (double) product.getQuantity() * product.getCurrentPrice();
+        }
+        return totalAmount;
+    }
+
+    public int calculateQuantity(ArrayList<Product> sources) {
+        int totalItem = 0;
+        for (Product product: sources) {
+            totalItem += product.getQuantity();
+        }
+        return totalItem;
     }
 
     public void clear() {
@@ -74,11 +130,11 @@ public class ProductManager {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T get(String key, Class<T> anonymousClass) {
+    public <T> T get(String key, Type anonymousClass) {
         if (anonymousClass == String.class) {
             return (T) mSharedPreferences.getString(key, "");
         } else if (anonymousClass == Boolean.class) {
-            return (T) Boolean.valueOf(mSharedPreferences.getBoolean(key, false));
+            return (T) Boolean.valueOf(mSharedPreferences.getBoolean(key, true));
         } else if (anonymousClass == Float.class) {
             return (T) Float.valueOf(mSharedPreferences.getFloat(key, 0));
         } else if (anonymousClass == Integer.class) {

@@ -16,9 +16,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.coderschool.walmart_android.R;
 import com.coderschool.walmart_android.activities.MainActivity;
+import com.coderschool.walmart_android.manager.ProductManager;
+import com.coderschool.walmart_android.models.Product;
+
+import java.util.ArrayList;
 
 @SuppressLint("ValidFragment")
 public class ThankFragment extends Fragment {
@@ -40,10 +45,22 @@ public class ThankFragment extends Fragment {
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
         mainActivity.setSupportActionBar(toolbar);
 
+        TextView tvThankSubtotalItem = (TextView) getView().findViewById(R.id.tvThankSubtotalItem);
+        TextView tvThankSubtotalAmount = (TextView) getView().findViewById(R.id.tvThankSubtotalAmount);
+        TextView tvThankTotalAmount = (TextView) getView().findViewById(R.id.tvThankTotalAmount);
+
+        ArrayList<Product> products = ProductManager.getInstance().loadCartItems();
+        if (products.size() > 0) {
+            tvThankSubtotalItem.setText(String.format("Subtotal (%d items)", products.get(0).getTotalItem()));
+            tvThankSubtotalAmount.setText(String.format("$%.2f", products.get(0).getTotalAmount()));
+            tvThankTotalAmount.setText(String.format("$%.2f", products.get(0).getTotalAmount()));
+        }
+
         Button btnContinueShopping = (Button) getView().findViewById(R.id.btnContinueShopping);
         btnContinueShopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ProductManager.getInstance().setReset(true);
                 getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 mainActivity.viewPager.setCurrentItem(0);
             }
